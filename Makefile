@@ -1,4 +1,4 @@
 build:
-	gcc main.c -o fsminishell -Wall -lm
+	gcc main.c -g -o fsminishell -Wall -lm
 run:
-	valgrind ./fsminishell
+	./fsminishell

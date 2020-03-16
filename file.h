@@ -21,7 +21,8 @@ typedef struct Directory {
     // TODO: The list of directories of the current directory
     Dir *headDirs;
 
-    // The parent directory of the current directory (NULL for the root directory)
+    // The parent directory of the current
+    //directory (NULL for the root directory)
     struct Directory *parentDir;
 } Directory;
 
