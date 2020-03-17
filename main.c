@@ -148,16 +148,26 @@ void LS(Directory *curent)
 {
 	Fila *capFile = curent->headFiles;
 	Dir *capDirs =  curent->headDirs;
+	int checker = 0;
+
+	if (capFile != NULL)
+		checker = 1;
 
 	while (capFile != NULL) {
-		printf("%s ", capFile->fila->name);
+		printf("%s", capFile->fila->name);
 		capFile = capFile->next;
-
+		if (capFile != NULL)
+			printf(" ");
 	}
 
+	if (capDirs != NULL && checker)
+		printf(" ");
+
 	while (capDirs != NULL) {
-		printf("%s ", capDirs->Direct->name);
+		printf("%s", capDirs->Direct->name);
 		capDirs = capDirs->next;
+		if (capDirs != NULL)
+			printf(" ");
 	}
 
 	printf("\n");
@@ -244,7 +254,7 @@ void rmFile(Directory **curent, char *str)
 		capFile = capFile->next;
 
 	if (capFile == NULL) {
-		printf("Cannot remove ​'%s': No such file!\n", nume);
+		printf("Cannot remove '%s': No such file!\n", nume);
 		free(nume);
 		return;
 	}
@@ -309,7 +319,7 @@ void rmDir(Directory **curent, char *str)
 		capDirs = capDirs->next;
 
 	if (capDirs == NULL) {
-		printf("Cannot remove ​'%s': No such directory!\n", nume);
+		printf("Cannot remove '%s': No such directory!\n", nume);
 		free(nume);
 		return;
 	}
@@ -342,7 +352,7 @@ void findRec(Directory *curent, int currentPos,
 
 	while (cap != NULL) {
 		if (cap->fila->size >= min_size && cap->fila->size <= max_size
-			&& strstr(cap->fila->name, nume)) {
+			&& strstr(cap->fila->data, nume)) {
 			printf("%s ", cap->fila->name);
 		}
 
@@ -370,6 +380,7 @@ void find(Directory *curent, char *str)
 
 	p = strtok(NULL, " ");
 	int max_size = atoi(p);
+	p = strtok(NULL, " ");
 
 	char *nume = strdup(p);
 
@@ -429,8 +440,10 @@ int main(int argv, char **argc)
 			rmDir(&curent, s);
 		else if (s - strstr(s, "rm") == 0)
 			rmFile(&curent, s);
-		else if (s - strstr(s, "fid") == 0)
+		else if (s - strstr(s, "find") == 0) {
 			find(curent, s);
+			printf("\n");
+		}
 	}
 	return 0;
 }
