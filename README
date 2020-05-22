@@ -1,0 +1,83 @@
+Romanian:
+Fisierul fila.h contine:
+	-o structura de lista de file (Fila)
+	-o structura de lista de directoare(Dir)
+	-o structura de Director (Directory) care contine field-uri de
+	nume, capul listei d efisiere si capul listei de directoare.
+	-o structura de Fisier (File) care contine numele, contentul si
+	marimea contentului si de asemenea directorul in care se afla.
+
+In main() am 2 structuri de tip Directory pentru root si pentru directorul
+curent in care ma alfu (folositor pentru tree, cd , pwd).
+
+Am abordat problema in felul urmator pentru feicare task:
+
+1. Create fs:
+	- am alocat memorie pentru directorul respectiv si am initializat
+	listele de directoare si fisiere cu NULL, iar parintele NULL.
+
+2. Delete fs:
+	- am dat free() la nume si la directorul radacina, considerand ca
+	restul directoarelor si fisierelor au fost sterse deja din memorie.
+	- daca mai exista fisiere nesterse, le sterg recursiv cu ajutorul
+	unor functii folosite pentru rmdir.
+3. touch:
+	- dupa ce parsez inputul si delimitez fiecare string ( am considerat
+	ca numele fisierului poate avea si spatii) am creeat un nou nod de 
+	tip FILE si un nou nod de tip Fila pentru a putea adauga fisierul
+	in lista de fisiere a directorului curent.
+	- daca lista directorului curent este goala, atunci noul head devine
+	nodul Fila pe care l-am creat.
+	- daca nu este nulla, parcurg lista si incerc sa plasez lexicografic.
+	Se distring 3 cazuri:
+		-cazul cand nodul curent devine nou head
+		-cazul in care nodul curent este la final
+		-cazul cand nodul se afla intre alte 2 noduri din lista
+
+4. mkdir:
+	- acelasi principiu ca la touch, doar ca structurile sunt cele pentru
+	directoare si lista de directoare.
+
+5. ls:
+	- folosindu-ma de directorul curent, parcurg pe rand lista de fisiere
+	si de directoare si le afisez. Am grija sa nu afisez la final un 
+	spatiu in plus si verific daca exista cumva directoare sau daca este
+	vorba de ultimul fisier / director.
+
+6. pwd:
+	- la fel ca la ls ma folosesc de directorul curent si parcurg recursiv
+	parintii acestuia pana ajung la root apoi afisez de la root spre
+	directorul curent. Insa pornesc parcurgerea cu directorul parinte 
+	pentru a nu afisa '/' in plus.
+7. cd:
+	- parsez inputul si ma folosesc de directorul curent. Parcurg lista de
+	directoare si verific daca acest nume nou de director exista deja in
+	lista. Daca exista curent ia valoarea directorului respenctiv. Daca nu
+	afisez un mesaj de eroare si ies din functie.
+
+8. tree:
+	- pornind de la directorul curent, ii afisez numele, apoi, printr-o 
+	functie recursiva cu directorul curent ca parametrii si numarul de 
+	spatii care trebuie sa fie in fata fiecarui output parcurg lista 
+	de fisiere si o afisez iar apoi parcurg lista de directoare, adisez
+	numele si apelez din nou functia pentru fiecare director.
+
+9. rm:
+	- verific daca fisierul curent se afla in director. Daca se afla,
+	il sterg si dealoc memoria, daca nu, afisez un mesaj de eroare.
+10. rmdir:
+	- verific daca directorul se afla in folderul curent. Daca nu, afisez
+	un mesaj de eroare. Daca se afla atunci parcurg recursiv pana la cel
+	mai adanc director sau fisier si sterg de la coada spre inceput,
+	dealocand memoria.
+
+11. find:
+	- parsez inputul, aflu min_size, max_size, depth si subcontentul,
+	iar apoi parcurg recursiv tot sistemul pornind de la directorul curent
+	si aflu ce fisiere indeplinesc conditiile, iar apoi le afisez.
+	
+English:
+This is a project for the data structures course at the faculty.
+I made a small file system with basic linux commands: cd, ls, pwd, touch, mkdir, tree, rm, rmdir, find.
+With the commands created fs and delete fs create and delete the root file.
+Thus, the program is run in the terminal and the commands are given. To exit, type "delete fs".
